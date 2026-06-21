@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PQQ - ARCHIVE</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color-overlay: rgba(20, 20, 20, 0.7); /* Lớp phủ tối cho nền */
+            --card-bg: rgba(255, 255, 255, 0.9); /* Nền thẻ hơi trong suốt */
+            --text-main: #2c3e50;
+            --text-sub: #555;
+            --accent: #b76e10; /* Màu vàng đồng võ thuật */
+            --accent-hover: #e67e22;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white; /* Chữ chính trên nền tối */
+            min-height: 100vh;
+            
+            /* --- BẮT ĐẦU CÀI ĐẶT NỀN THIÊN NHIÊN --- */
+            background-image: url('https://images.unsplash.com/photo-1518173946687-a4c899583bf6?q=80&w=1920&auto=format&fit=crop'); 
+            /* Bạn có thể thay link ảnh trên bằng file local của bạn, ví dụ: url('background.jpg') */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Giữ nền cố định khi cuộn */
+            position: relative;
+        }
+
+        /* Lớp phủ tối để làm nổi bật nội dung */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--bg-color-overlay);
+            z-index: 1;
+        }
+
+        /* Chứa toàn bộ nội dung để nằm trên lớp phủ */
+        .main-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(0, 0, 0, 0.5));
+            border-bottom: 3px solid var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        header p.subtitle {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #ddd;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* --- Thanh tìm kiếm phong cách võ thuật --- */
+        .search-container {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 18px 25px 18px 60px; /* Chừa chỗ cho icon */
+            font-size: 1.1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            outline: none;
+            background-color: rgba(0,0,0,0.4);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: var(--accent);
+            background-color: rgba(0,0,0,0.6);
+            box-shadow: 0 0 15px rgba(183, 110, 16, 0.4);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 1.2rem;
+        }
+
+        /* --- Lưới thẻ bài --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            align-items: flex-start; /* Icon và chữ nằm ngang */
+            gap: 20px;
+            border-bottom: 4px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+            border-bottom-color: var(--accent);
+            background-color: #fff;
+        }
+
+        /* Biểu tượng võ thuật tròn */
+        .card-icon-circle {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(183, 110, 16, 0.1); /* Màu nhấn mờ */
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.8rem;
+            flex-shrink: 0; /* Không cho icon bị bóp méo */
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .card-icon-circle {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .card-content {
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: #000;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            margin: 0 0 15px 0;
+            line-height: 1.5;
+        }
+
+        .card-link-text {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* Hiển thị khi không tìm thấy */
+        .no-result {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px;
+            color: #bbb;
+            font-style: italic;
+            display: none;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            color: #aaa;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Responsive di động */
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            .card { flex-direction: column; text-align: center; align-items: center; }
+            .card-icon-circle { margin-bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <header>
+            <h1>PQQ - ARCHIVE</h1>
+            <p class="subtitle">Hệ thống lưu trữ kỹ thuật võ thuật số</p>
+        </header>
+
+        <div class="container">
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" onkeyup="filterItems()" placeholder="Tìm tên bài quyền (ví dụ: Nhật Nguyệt)...">
+                </div>
+            </div>
+
+            <div class="grid-container" id="itemGrid">
+                
+                <a href="http://lelevietnam99.github.io/NHATNGUYETTHIENTRUONG" class="card" target="_blank">
+                    <div class="card-icon-circle">
+                        <i class="fas fa-jedi"></i> 
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">Nhật Nguyệt Thiền Trượng</div>
+                        <div class="card-desc">Cấp độ: Căn bản đến Nâng cao.<br>Tổng hợp video hướng dẫn chi tiết từng phần.</div>
+                        <div class="card-link-text">Khám phá ngay ➔</div>
+                    </div>
+                </a>
+
+                <div class="no-result" id="noResultMsg">
+                    <i class="fas fa-user-slash" style="font-size: 2rem; margin-bottom: 10px;"></i><br>
+                    Không tìm thấy bài quyền nào phù hợp với từ khóa.
+                </div>
+
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 PQQ Martial Arts Archive. Thiết kế phong thái võ thuật thiên nhiên.</p>
+        </footer>
+    </div>
+
+    <script>
+        function filterItems() {
+            let input = document.getElementById('searchInput');
+            let filter = input.value.toLowerCase();
+            let grid = document.getElementById('itemGrid');
+            let cards = grid.getElementsByClassName('card');
+            let noResultMsg = document.getElementById('noResultMsg');
+            let hasResult = false;
+
+            for (let i = 0; i < cards.length; i++) {
+                // Tìm tiêu đề bên trong từng card-content
+                let title = cards[i].querySelector('.card-title');
+                if (title) {
+                    let textValue = title.textContent || title.innerText;
+                    if (textValue.toLowerCase().indexOf(filter) > -1) {
+                        cards[i].style.display = "flex"; // Hiển thị dạng flex để giữ layout icon-chữ
+                        hasResult = true;
+                    } else {
+                        cards[i].style.display = "none";
+                    }
+                }
+            }
+
+            if (hasResult) {
+                noResultMsg.style.display = "none";
+            } else {
+                noResultMsg.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
